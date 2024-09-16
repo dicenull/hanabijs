@@ -1,10 +1,9 @@
-// ex. scripts/build_npm.ts
 import { build, emptyDir } from "@deno/dnt";
 
 await emptyDir("./npm");
 
 await build({
-  entryPoints: ["./mod.ts"],
+  entryPoints: ["./mod/main.ts"],
   outDir: "./npm",
   shims: {
     deno: true,

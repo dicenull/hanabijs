@@ -22,7 +22,9 @@
       "jsr:@std/path@^0.225.2": "jsr:@std/path@0.225.2",
       "jsr:@std/path@^1.0.4": "jsr:@std/path@1.0.6",
       "jsr:@ts-morph/bootstrap@^0.24.0": "jsr:@ts-morph/bootstrap@0.24.0",
-      "jsr:@ts-morph/common@^0.24.0": "jsr:@ts-morph/common@0.24.0"
+      "jsr:@ts-morph/common@^0.24.0": "jsr:@ts-morph/common@0.24.0",
+      "npm:@types/p5": "npm:@types/p5@1.7.6",
+      "npm:p5@1.7.0": "npm:p5@1.7.0"
     },
     "jsr": {
       "@david/code-block-writer@13.0.2": {
@@ -125,13 +127,36 @@
           "jsr:@std/path@^0.225.2"
         ]
       }
+    },
+    "npm": {
+      "@types/p5@1.7.6": {
+        "integrity": "sha512-6pLTOo0V3N5jZb5nTwjiv3lPHLK3Z/TjbhQUj8CTWXocUk1Z/f6OHTp3Pcwi1BhWnf5gqKUcyEb1gP0KIJuQgw==",
+        "dependencies": {}
+      },
+      "p5@1.7.0": {
+        "integrity": "sha512-qrbT/44Dwm63ZtOKX/mp61pw+5yj6ijYLOmRv7p6zcfjbo83Vb0gVFEvW0kTLFu7hceWCig0HONo9F1bSlqbsQ==",
+        "dependencies": {}
+      }
     }
   },
-  "remote": {},
+  "redirects": {
+    "https://esm.sh/v135/@types/p5@1.7.6/index": "https://esm.sh/v135/@types/p5@1.7.6/index~.d.ts",
+    "https://esm.sh/v135/@types/p5@~1/index.d.ts": "https://esm.sh/v135/@types/p5@1.7.6/index.d.ts"
+  },
+  "remote": {
+    "https://esm.sh/p5@1.10.0": "9d5f5cb6a46e32545073271799d39d0d1e666be7111e697b6a0f645005312cd4",
+    "https://esm.sh/v135/p5@1.10.0/denonext/p5.mjs": "cde0f84a7d408e8bfa20f1ffca8cbee1489604159a06fe346b663b98b4e572c8"
+  },
   "workspace": {
     "dependencies": [
       "jsr:@deno/dnt@^0.41.3",
-      "jsr:@std/assert@1"
-    ]
+      "jsr:@std/assert@1",
+      "npm:@types/p5"
+    ],
+    "packageJson": {
+      "dependencies": [
+        "npm:@types/p5@^1.7.6"
+      ]
+    }
   }
 }

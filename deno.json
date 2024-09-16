@@ -4,6 +4,12 @@
   },
   "imports": {
     "@deno/dnt": "jsr:@deno/dnt@^0.41.3",
-    "@std/assert": "jsr:@std/assert@1"
-  }
+    "@std/assert": "jsr:@std/assert@1",
+    "@types/p5": "npm:@types/p5"
+  },
+  "exclude": [
+    "npm/",
+    "example/",
+    "node_modules/"
+  ]
 }

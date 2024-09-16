@@ -59,10 +59,12 @@
     "https://esm.sh/hanabijs@0.1.2": "f9c876057613ffd4a757ecfbc711d137e18ecc292a3d581ef9416560c52010a2",
     "https://esm.sh/hanabijs@0.1.3": "f0defb3612af36351fe2634eb726eb500e26ab1f6a4bb8838d6d4f3e71c0ba8e",
     "https://esm.sh/hanabijs@0.1.4": "6b5236ffe7b8fda2c51ec73225917c7e76df37b4f7a7bb6cd9064790e4e40186",
+    "https://esm.sh/hanabijs@0.1.5": "5799cfae0868e09eeaca8b73d79282e3f383570875ed5a4e1916983d6a94c1a4",
     "https://esm.sh/v135/hanabijs@0.1.1/denonext/hanabijs.mjs": "2891042a54c6b37f6f5efb6cd563fa19196a583160d371981ced8bb15ada2f24",
     "https://esm.sh/v135/hanabijs@0.1.2/denonext/hanabijs.mjs": "82217f3a14cfc4682fe477b627a426ffe2ea9c8919541b1de50d7403d1f8a79b",
     "https://esm.sh/v135/hanabijs@0.1.3/denonext/hanabijs.mjs": "d7283b6025b082dd14bf9234b98e9043b9db7689a37a22e53423ed4bad8d88a0",
     "https://esm.sh/v135/hanabijs@0.1.4/denonext/hanabijs.mjs": "1b0b087ff285b9f6d0f77435183d45ac9409cd232f99a2a07b8df2044cbfcc18",
+    "https://esm.sh/v135/hanabijs@0.1.5/denonext/hanabijs.mjs": "292cb84a982d35460644d49edc8939c3ef0ce6524c0eed63c4e87f288a5c9eae",
     "https://esm.sh/v135/p5@1.10.0/denonext/p5.mjs": "cde0f84a7d408e8bfa20f1ffca8cbee1489604159a06fe346b663b98b4e572c8"
   },
   "workspace": {

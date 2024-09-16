@@ -1,3 +1,3 @@
-import { registerHanabi } from "https://esm.sh/hanabijs@0.1.4";
+import { startContestMode } from "https://esm.sh/hanabijs@0.1.5";
 
-registerHanabi();
+startContestMode();

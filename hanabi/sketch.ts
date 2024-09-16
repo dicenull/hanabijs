@@ -3,6 +3,7 @@
 import p5 from "https://esm.sh/p5@1.10.0";
 
 import { Firework } from "./firework.ts";
+import { HanabiType } from "./hanabi_type.ts";
 
 const fireworks: Firework[] = [];
 let bgColor: p5.Color;
@@ -33,7 +34,7 @@ function FireworkMakeMode(p: p5) {
 
 function FireworkContestMode(p: p5) {
   if (p.random() < 0.3) {
-    const _type = () => p.random(["菊", "牡丹"]);
+    const _type = (): HanabiType => p.random(["Botan", "Kiku"]);
     const _color = () => p.color(p.random(255), 255, 255);
 
     const firework = new Firework(
@@ -116,7 +117,7 @@ const sketch = (p: p5) => {
 };
 
 let isReady = false;
-let firework_types: string[];
+let firework_types: HanabiType[];
 let firework_colors: p5.Color[];
 let mode: string;
 
@@ -125,7 +126,7 @@ function start(_mode: string) {
   mode = _mode;
 }
 
-export function startMakeMode(types: string[], colors: p5.Color[]) {
+export function startMakeMode(types: HanabiType[], colors: p5.Color[]) {
   start("make");
 
   firework_types = types;

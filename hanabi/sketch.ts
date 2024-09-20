@@ -3,15 +3,15 @@
 import p5 from "https://esm.sh/p5@1.10.0";
 
 import { Firework } from "./firework.ts";
+import { HanabiType } from "./hanabi_type.ts";
 
-let fireworks: Firework[] = [];
-let gravity;
+const fireworks: Firework[] = [];
 let bgColor: p5.Color;
 
 let graphicBuffers: p5.Graphics[] = [];
-let raisingTrail = 15;
-let kikuTrail = 30;
-let botanTrail = 3;
+const raisingTrail = 15;
+const kikuTrail = 30;
+const botanTrail = 3;
 const standardFrame = 60;
 
 function FireworkMakeMode(p: p5) {
@@ -34,11 +34,10 @@ function FireworkMakeMode(p: p5) {
 
 function FireworkContestMode(p: p5) {
   if (p.random() < 0.3) {
-    let firework;
-    const _type = () => p.random(["菊", "牡丹"]);
+    const _type = (): HanabiType => p.random(["Botan", "Kiku"]);
     const _color = () => p.color(p.random(255), 255, 255);
 
-    firework = new Firework(
+    const firework = new Firework(
       p,
       [_color(), _color(), _color()],
       [_type(), _type(), _type()],
@@ -60,7 +59,6 @@ const sketch = (p: p5) => {
 
     p.background(bgColor); // 背景を黒く指定
     p.colorMode(p.HSB); //花火を出す色の指定の仕方
-    gravity = p.createVector(0, 0.7);
     p.stroke(255); // 線の色を設定
     p.strokeWeight(4); // 線の太さ
 
@@ -119,7 +117,7 @@ const sketch = (p: p5) => {
 };
 
 let isReady = false;
-let firework_types: string[];
+let firework_types: HanabiType[];
 let firework_colors: p5.Color[];
 let mode: string;
 
@@ -128,7 +126,7 @@ function start(_mode: string) {
   mode = _mode;
 }
 
-export function startMakeMode(types: string[], colors: p5.Color[]) {
+export function startMakeMode(types: HanabiType[], colors: p5.Color[]) {
   start("make");
 
   firework_types = types;

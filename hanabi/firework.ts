@@ -2,6 +2,7 @@
 // @ts-types="@types/p5"
 import p5 from "https://esm.sh/p5@1.10.0";
 
+import { HanabiType } from "./hanabi_type.ts";
 import { ExplodeParticle, RasingParticle } from "./particle.ts";
 
 const onFireworkExplode = new CustomEvent("onFireworkExplode");
@@ -59,7 +60,7 @@ export class Firework {
   constructor(
     p: p5,
     colors: p5.Color[],
-    types: string[],
+    types: HanabiType[],
     buffers: p5.Graphics[],
     launch: p5.Vector
   ) {
@@ -78,10 +79,10 @@ export class Firework {
   explode(p: p5) {
     let fireworkSum = 0;
     for (let i = 0; i < starCount; i++) {
-      if (this.types[i] === "牡丹") {
+      if (this.types[i] === "Botan") {
         fireworkSum += 50;
       }
-      if (this.types[i] === "菊") {
+      if (this.types[i] === "Kiku") {
         fireworkSum += 100;
       }
     }
@@ -93,12 +94,12 @@ export class Firework {
       const particleColor = this.selectColor(vec);
       const origin = p.createVector(rPos.x, rPos.y);
 
-      if (type === "牡丹") {
+      if (type === "Botan") {
         this.particles.push(
           botanParticle(p, this.buffers[1], origin, vec, particleColor)
         );
       }
-      if (type === "菊") {
+      if (type === "Kiku") {
         this.particles.push(
           kikuParticle(p, this.buffers[2], origin, vec, particleColor)
         );

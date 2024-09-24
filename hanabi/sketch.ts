@@ -18,14 +18,14 @@ function FireworkMakeMode(p: p5) {
   if (fireworks.length === 0) {
     const launchPos = p.createVector(
       p.random(p.width * 0.4, p.width * 0.6),
-      p.height
+      p.height,
     );
     const firework = new Firework(
       p,
       firework_colors,
       firework_types,
       graphicBuffers,
-      launchPos
+      launchPos,
     );
 
     fireworks.push(firework);
@@ -42,7 +42,7 @@ function FireworkContestMode(p: p5) {
       [_color(), _color(), _color()],
       [_type(), _type(), _type()],
       graphicBuffers,
-      p.createVector(p.random(0.1, 0.9) * p.width, p.height)
+      p.createVector(p.random(0.1, 0.9) * p.width, p.height),
     );
 
     fireworks.push(firework);

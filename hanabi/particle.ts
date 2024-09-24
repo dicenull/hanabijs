@@ -37,7 +37,7 @@ export class RasingParticle extends AbstractParticle {
     p: p5,
     graphicBuffer: p5.Graphics,
     pos: p5.Vector,
-    color: p5.Color
+    color: p5.Color,
   ) {
     super(pos, graphicBuffer);
     this.velocity = p.createVector(0, p.random(2, 3) * -3);
@@ -64,7 +64,7 @@ export class ExplodeParticle extends AbstractParticle {
     v: number,
     initLife: number,
     v0: p5.Vector,
-    acc: p5.Vector
+    acc: p5.Vector,
   ) {
     super(pos, graphicBuffer);
     this.velocity = v0;

@@ -16,7 +16,7 @@ export function kikuParticle(
   graphicBuffer: p5.Graphics,
   origin: p5.Vector,
   vec: p5.Vector,
-  color: p5.Color
+  color: p5.Color,
 ) {
   return new ExplodeParticle(
     graphicBuffer,
@@ -26,7 +26,7 @@ export function kikuParticle(
     0.98,
     250,
     vec.mult(5),
-    p.createVector(0, 0.04)
+    p.createVector(0, 0.04),
   );
 }
 
@@ -35,7 +35,7 @@ export function botanParticle(
   graphicBuffer: p5.Graphics,
   origin: p5.Vector,
   vec: p5.Vector,
-  color: p5.Color
+  color: p5.Color,
 ) {
   return new ExplodeParticle(
     graphicBuffer,
@@ -45,7 +45,7 @@ export function botanParticle(
     0.93,
     300,
     vec.mult(6),
-    p.createVector(0, 0)
+    p.createVector(0, 0),
   );
 }
 
@@ -62,7 +62,7 @@ export class Firework {
     colors: p5.Color[],
     types: HanabiType[],
     buffers: p5.Graphics[],
-    launch: p5.Vector
+    launch: p5.Vector,
   ) {
     this.buffers = buffers;
     this.colors = colors;
@@ -72,7 +72,7 @@ export class Firework {
       p,
       this.buffers[0],
       launch,
-      this.colors[0]
+      this.colors[0],
     );
   }
 
@@ -96,12 +96,12 @@ export class Firework {
 
       if (type === "Botan") {
         this.particles.push(
-          botanParticle(p, this.buffers[1], origin, vec, particleColor)
+          botanParticle(p, this.buffers[1], origin, vec, particleColor),
         );
       }
       if (type === "Kiku") {
         this.particles.push(
-          kikuParticle(p, this.buffers[2], origin, vec, particleColor)
+          kikuParticle(p, this.buffers[2], origin, vec, particleColor),
         );
       }
     }

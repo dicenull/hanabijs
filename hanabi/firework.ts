@@ -9,8 +9,6 @@ const onFireworkExplode = new CustomEvent("onFireworkExplode");
 
 const onFireworkDispose = new CustomEvent("onFireworkDispose");
 
-const starCount = 3;
-
 export function kikuParticle(
   p: p5,
   graphicBuffer: p5.Graphics,
@@ -74,7 +72,7 @@ export class Firework {
 
   explode(p: p5) {
     let fireworkSum = 0;
-    for (let i = 0; i < starCount; i++) {
+    for (let i = 0; i < this.types.length; i++) {
       if (this.types[i] === "Botan") {
         fireworkSum += 50;
       }
@@ -140,6 +138,7 @@ export class Firework {
     }
   }
 
+  // 花火の重心によって花火の種類を選択する。中心に近いほど0
   selectIndex(vector: p5.Vector) {
     const xyMag = vector.x * vector.x + vector.y * vector.y;
     if (xyMag < 0.3) {

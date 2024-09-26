@@ -3,30 +3,26 @@
 import p5 from "https://esm.sh/p5@1.10.0";
 
 import { HanabiType } from "./hanabi_type.ts";
-import { ExplodeParticle, RasingParticle } from "./particle.ts";
+import { ExplodeParticle, RasingParticle, Rigidbody } from "./particle.ts";
 
 const onFireworkExplode = new CustomEvent("onFireworkExplode");
 
 const onFireworkDispose = new CustomEvent("onFireworkDispose");
-
-const starCount = 3;
 
 export function kikuParticle(
   p: p5,
   graphicBuffer: p5.Graphics,
   origin: p5.Vector,
   vec: p5.Vector,
-  color: p5.Color,
+  color: p5.Color
 ) {
   return new ExplodeParticle(
     graphicBuffer,
-    origin,
     color,
     p.random() < 0.5 ? 3 : 1,
     0.98,
     250,
-    vec.mult(5),
-    p.createVector(0, 0.04),
+    new Rigidbody(origin, vec.mult(5), p.createVector(0, 0.04))
   );
 }
 
@@ -35,17 +31,15 @@ export function botanParticle(
   graphicBuffer: p5.Graphics,
   origin: p5.Vector,
   vec: p5.Vector,
-  color: p5.Color,
+  color: p5.Color
 ) {
   return new ExplodeParticle(
     graphicBuffer,
-    origin,
     color,
     p.random(5, 8),
     0.93,
     300,
-    vec.mult(6),
-    p.createVector(0, 0),
+    new Rigidbody(origin, vec.mult(6), p.createVector(0, 0))
   );
 }
 
@@ -62,7 +56,7 @@ export class Firework {
     colors: p5.Color[],
     types: HanabiType[],
     buffers: p5.Graphics[],
-    launch: p5.Vector,
+    launch: p5.Vector
   ) {
     this.buffers = buffers;
     this.colors = colors;
@@ -72,13 +66,13 @@ export class Firework {
       p,
       this.buffers[0],
       launch,
-      this.colors[0],
+      this.colors[0]
     );
   }
 
   explode(p: p5) {
     let fireworkSum = 0;
-    for (let i = 0; i < starCount; i++) {
+    for (let i = 0; i < this.types.length; i++) {
       if (this.types[i] === "Botan") {
         fireworkSum += 50;
       }
@@ -87,7 +81,7 @@ export class Firework {
       }
     }
 
-    const rPos = this.rasingParticle.position;
+    const rPos = this.rasingParticle.rb.position;
     for (let i = 0; i < fireworkSum; i++) {
       const vec = p5.Vector.random3D();
       const type = this.selectType(vec);
@@ -96,12 +90,12 @@ export class Firework {
 
       if (type === "Botan") {
         this.particles.push(
-          botanParticle(p, this.buffers[1], origin, vec, particleColor),
+          botanParticle(p, this.buffers[1], origin, vec, particleColor)
         );
       }
       if (type === "Kiku") {
         this.particles.push(
-          kikuParticle(p, this.buffers[2], origin, vec, particleColor),
+          kikuParticle(p, this.buffers[2], origin, vec, particleColor)
         );
       }
     }
@@ -120,7 +114,7 @@ export class Firework {
   update(p: p5, dt: number) {
     if (!this.exploded) {
       this.rasingParticle.update(dt);
-      if (this.rasingParticle.velocity.y >= 0) {
+      if (this.rasingParticle.rb.velocity.y >= 0) {
         document.dispatchEvent(onFireworkExplode);
         this.exploded = true;
         this.explode(p);
@@ -144,6 +138,7 @@ export class Firework {
     }
   }
 
+  // 花火の重心によって花火の種類を選択する。中心に近いほど0
   selectIndex(vector: p5.Vector) {
     const xyMag = vector.x * vector.x + vector.y * vector.y;
     if (xyMag < 0.3) {

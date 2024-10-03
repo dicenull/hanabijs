@@ -3,12 +3,16 @@
 import p5 from "https://esm.sh/p5@1.10.0";
 
 import { Firework } from "./firework.ts";
-import { HanabiType } from "./hanabi_type.ts";
+import { HanabiType, isHanabiType } from "./hanabi_type.ts";
 
 const fireworks: Firework[] = [];
 let bgColor: p5.Color;
 
-let graphicBuffers: p5.Graphics[] = [];
+const graphicBuffers: Record<HanabiType, p5.Graphics | null> = {
+  Kiku: null,
+  Botan: null,
+  Rasing: null,
+};
 const raisingTrail = 15;
 const kikuTrail = 30;
 const botanTrail = 3;
@@ -18,14 +22,14 @@ function FireworkMakeMode(p: p5) {
   if (fireworks.length === 0) {
     const launchPos = p.createVector(
       p.random(p.width * 0.4, p.width * 0.6),
-      p.height,
+      p.height
     );
     const firework = new Firework(
       p,
       firework_colors,
       firework_types,
       graphicBuffers,
-      launchPos,
+      launchPos
     );
 
     fireworks.push(firework);
@@ -42,7 +46,7 @@ function FireworkContestMode(p: p5) {
       [_color(), _color(), _color()],
       [_type(), _type(), _type()],
       graphicBuffers,
-      p.createVector(p.random(0.1, 0.9) * p.width, p.height),
+      p.createVector(p.random(0.1, 0.9) * p.width, p.height)
     );
 
     fireworks.push(firework);
@@ -62,11 +66,11 @@ const sketch = (p: p5) => {
     p.stroke(255); // 線の色を設定
     p.strokeWeight(4); // 線の太さ
 
-    graphicBuffers = [
-      p.createGraphics(p.width, p.height),
-      p.createGraphics(p.width, p.height),
-      p.createGraphics(p.width, p.height),
-    ];
+    Object.keys(graphicBuffers)
+      .filter(isHanabiType)
+      .forEach((key) => {
+        graphicBuffers[key] = p.createGraphics(p.width, p.height);
+      });
 
     p.frameRate(standardFrame);
   };
@@ -88,9 +92,9 @@ const sketch = (p: p5) => {
       }
 
       // 花火の更新
-      graphicBuffers[0].background(0, Math.ceil(255 / raisingTrail));
-      graphicBuffers[1].background(0, Math.ceil(255 / botanTrail));
-      graphicBuffers[2].background(0, Math.ceil(255 / kikuTrail));
+      graphicBuffers["Rasing"]?.background(0, Math.ceil(255 / raisingTrail));
+      graphicBuffers["Botan"]?.background(0, Math.ceil(255 / botanTrail));
+      graphicBuffers["Kiku"]?.background(0, Math.ceil(255 / kikuTrail));
 
       const delta = p.deltaTime;
       const currentFrame = p.frameRate();
@@ -106,11 +110,14 @@ const sketch = (p: p5) => {
 
       // canvasに反映
       p.blendMode(p.SCREEN);
-      for (let i = 0; i < graphicBuffers.length; i++) {
-        graphicBuffers[i].background(0, 1);
+      Object.keys(graphicBuffers)
+        .filter(isHanabiType)
+        .forEach((key) => {
+          graphicBuffers[key]?.background(0, 1);
 
-        p.image(graphicBuffers[i], 0, 0);
-      }
+          p.image(graphicBuffers[key]!, 0, 0);
+        });
+
       p.blendMode(p.BLEND);
     }
   };

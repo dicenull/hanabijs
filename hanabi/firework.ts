@@ -13,7 +13,7 @@ export function kikuParticle(
   p: p5,
   origin: p5.Vector,
   vec: p5.Vector,
-  color: p5.Color
+  color: p5.Color,
 ) {
   return new ExplodeParticle(
     "Kiku",
@@ -21,7 +21,7 @@ export function kikuParticle(
     p.random() < 0.5 ? 3 : 1,
     0.98,
     250,
-    new Rigidbody(origin, vec.mult(5), p.createVector(0, 0.04))
+    new Rigidbody(origin, vec.mult(5), p.createVector(0, 0.04)),
   );
 }
 
@@ -29,7 +29,7 @@ export function botanParticle(
   p: p5,
   origin: p5.Vector,
   vec: p5.Vector,
-  color: p5.Color
+  color: p5.Color,
 ) {
   return new ExplodeParticle(
     "Botan",
@@ -37,7 +37,7 @@ export function botanParticle(
     p.random(5, 8),
     0.93,
     300,
-    new Rigidbody(origin, vec.mult(6), p.createVector(0, 0))
+    new Rigidbody(origin, vec.mult(6), p.createVector(0, 0)),
   );
 }
 
@@ -54,7 +54,7 @@ export class Firework {
     colors: p5.Color[],
     types: HanabiType[],
     buffers: Record<HanabiType, p5.Graphics | null>,
-    launch: p5.Vector
+    launch: p5.Vector,
   ) {
     this.buffers = buffers;
     this.colors = colors;

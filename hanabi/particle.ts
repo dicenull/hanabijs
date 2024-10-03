@@ -6,7 +6,7 @@ export class Rigidbody {
   constructor(
     public position: p5.Vector,
     public velocity: p5.Vector,
-    public acceleration: p5.Vector
+    public acceleration: p5.Vector,
   ) {}
 }
 
@@ -40,9 +40,9 @@ export class RasingParticle extends AbstractParticle {
       new Rigidbody(
         pos,
         p.createVector(0, p.random(2, 3) * -3),
-        p.createVector(0, 0.1)
+        p.createVector(0, 0.1),
       ),
-      "Rasing"
+      "Rasing",
     );
 
     this.color = color;
@@ -63,7 +63,7 @@ export class ExplodeParticle extends AbstractParticle {
     r: number,
     v: number,
     initLife: number,
-    rigidbody: Rigidbody
+    rigidbody: Rigidbody,
   ) {
     super(rigidbody, type);
 

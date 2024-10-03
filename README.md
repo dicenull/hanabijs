@@ -1,6 +1,8 @@
 # hanabijs
 
-綺麗な花火が表示できるnpmパッケージ。
+canvasに綺麗な花火を表示します。
+
+<img width="1162" alt="preview" src="https://github.com/user-attachments/assets/5865b8cd-371f-4540-92ab-ca93a1fea972">
 
 ## 動作確認
 

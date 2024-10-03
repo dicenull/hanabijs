@@ -19,6 +19,9 @@ jobs:
         with:
           deno-version: v1.x
 
+      - name: Install npm
+        run: npm i
+
       - name: Build npm package
         run: deno run -A build_npm.ts $RELEASE_VERSION
 

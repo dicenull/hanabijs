@@ -11,35 +11,33 @@ const onFireworkDispose = new CustomEvent("onFireworkDispose");
 
 export function kikuParticle(
   p: p5,
-  graphicBuffer: p5.Graphics,
   origin: p5.Vector,
   vec: p5.Vector,
-  color: p5.Color
+  color: p5.Color,
 ) {
   return new ExplodeParticle(
-    graphicBuffer,
+    "Kiku",
     color,
     p.random() < 0.5 ? 3 : 1,
     0.98,
     250,
-    new Rigidbody(origin, vec.mult(5), p.createVector(0, 0.04))
+    new Rigidbody(origin, vec.mult(5), p.createVector(0, 0.04)),
   );
 }
 
 export function botanParticle(
   p: p5,
-  graphicBuffer: p5.Graphics,
   origin: p5.Vector,
   vec: p5.Vector,
-  color: p5.Color
+  color: p5.Color,
 ) {
   return new ExplodeParticle(
-    graphicBuffer,
+    "Botan",
     color,
     p.random(5, 8),
     0.93,
     300,
-    new Rigidbody(origin, vec.mult(6), p.createVector(0, 0))
+    new Rigidbody(origin, vec.mult(6), p.createVector(0, 0)),
   );
 }
 
@@ -55,19 +53,14 @@ export class Firework {
     p: p5,
     colors: p5.Color[],
     types: HanabiType[],
-    buffers: p5.Graphics[],
-    launch: p5.Vector
+    buffers: Record<HanabiType, p5.Graphics | null>,
+    launch: p5.Vector,
   ) {
     this.buffers = buffers;
     this.colors = colors;
     this.types = types;
 
-    this.rasingParticle = new RasingParticle(
-      p,
-      this.buffers[0],
-      launch,
-      this.colors[0]
-    );
+    this.rasingParticle = new RasingParticle(p, launch, this.colors[0]);
   }
 
   explode(p: p5) {
@@ -89,14 +82,10 @@ export class Firework {
       const origin = p.createVector(rPos.x, rPos.y);
 
       if (type === "Botan") {
-        this.particles.push(
-          botanParticle(p, this.buffers[1], origin, vec, particleColor)
-        );
+        this.particles.push(botanParticle(p, origin, vec, particleColor));
       }
       if (type === "Kiku") {
-        this.particles.push(
-          kikuParticle(p, this.buffers[2], origin, vec, particleColor)
-        );
+        this.particles.push(kikuParticle(p, origin, vec, particleColor));
       }
     }
   }
@@ -131,10 +120,11 @@ export class Firework {
 
   show() {
     if (!this.exploded) {
-      this.rasingParticle.draw();
+      this.rasingParticle.draw(this.buffers["Rasing"]!);
     }
     for (let i = 0; i < this.particles.length; i++) {
-      this.particles[i].draw();
+      const p = this.particles[i];
+      p.draw(this.buffers[p.type]!);
     }
   }
 

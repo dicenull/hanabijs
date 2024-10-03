@@ -1,11 +1,12 @@
 // @ts-types="@types/p5"
 import p5 from "https://esm.sh/p5@1.10.0";
+import { HanabiType } from "./hanabi_type.ts";
 
 export class Rigidbody {
   constructor(
     public position: p5.Vector,
     public velocity: p5.Vector,
-    public acceleration: p5.Vector
+    public acceleration: p5.Vector,
   ) {}
 }
 
@@ -13,11 +14,9 @@ export abstract class AbstractParticle {
   rb: Rigidbody;
   abstract radius: number;
   abstract color: p5.Color;
-  graphicBuffer;
 
-  constructor(rigidbody: Rigidbody, graphicBuffer: p5.Graphics) {
+  constructor(rigidbody: Rigidbody, public type: HanabiType) {
     this.rb = rigidbody;
-    this.graphicBuffer = graphicBuffer;
   }
 
   update(delta: number) {
@@ -25,10 +24,10 @@ export abstract class AbstractParticle {
     this.rb.position.add(this.rb.velocity.copy().mult(delta));
   }
 
-  draw() {
-    this.graphicBuffer.strokeWeight(this.radius);
-    this.graphicBuffer.stroke(this.color);
-    this.graphicBuffer.point(this.rb.position.x, this.rb.position.y);
+  draw(graphicBuffer: p5.Graphics) {
+    graphicBuffer.strokeWeight(this.radius);
+    graphicBuffer.stroke(this.color);
+    graphicBuffer.point(this.rb.position.x, this.rb.position.y);
   }
 }
 
@@ -36,19 +35,14 @@ export class RasingParticle extends AbstractParticle {
   radius: number;
   color: p5.Color;
 
-  constructor(
-    p: p5,
-    graphicBuffer: p5.Graphics,
-    pos: p5.Vector,
-    color: p5.Color
-  ) {
+  constructor(p: p5, pos: p5.Vector, color: p5.Color) {
     super(
       new Rigidbody(
         pos,
         p.createVector(0, p.random(2, 3) * -3),
-        p.createVector(0, 0.1)
+        p.createVector(0, 0.1),
       ),
-      graphicBuffer
+      "Rasing",
     );
 
     this.color = color;
@@ -64,14 +58,14 @@ export class ExplodeParticle extends AbstractParticle {
   #initLife;
 
   constructor(
-    graphicBuffer: p5.Graphics,
+    type: HanabiType,
     color: p5.Color,
     r: number,
     v: number,
     initLife: number,
-    rigidbody: Rigidbody
+    rigidbody: Rigidbody,
   ) {
-    super(rigidbody, graphicBuffer);
+    super(rigidbody, type);
 
     this.color = color;
     this.radius = r;

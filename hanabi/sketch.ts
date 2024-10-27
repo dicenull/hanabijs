@@ -3,9 +3,11 @@
 import p5 from "https://esm.sh/p5@1.10.0";
 
 import { Firework } from "./firework.ts";
+import { HanabiController } from "./hanabi_controller.ts";
 import { HanabiType, isHanabiType } from "./hanabi_type.ts";
 import { HanabiMode } from "./mode_type.ts";
 
+const hanabiController = new HanabiController();
 const fireworks: Firework[] = [];
 let bgColor: p5.Color;
 
@@ -85,8 +87,8 @@ const sketch = (p: p5) => {
     p.background(bgColor); // 背景に少し透明なのを重ねてだんだん消えて行くように
     p.colorMode(p.HSB);
 
-    if (isReady) {
-      switch (mode) {
+    if (hanabiController.isReady) {
+      switch (hanabiController.currentMode) {
         case HanabiMode.Make:
           FireworkMakeMode(p);
           break;
@@ -127,25 +129,18 @@ const sketch = (p: p5) => {
   };
 };
 
-let isReady = false;
 let firework_types: HanabiType[];
 let firework_colors: p5.Color[];
-let mode: HanabiMode;
-
-function start(_mode: HanabiMode) {
-  isReady = true;
-  mode = _mode;
-}
 
 export function startMakeMode(types: HanabiType[], colors: p5.Color[]) {
-  start(HanabiMode.Make);
+  hanabiController.start(HanabiMode.Make);
 
   firework_types = types;
   firework_colors = colors;
 }
 
 export function startContestMode() {
-  start(HanabiMode.Contest);
+  hanabiController.start(HanabiMode.Contest);
 }
 
 new p5(sketch);

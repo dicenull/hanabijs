@@ -4,6 +4,7 @@ import p5 from "https://esm.sh/p5@1.10.0";
 
 import { Firework } from "./firework.ts";
 import { HanabiType, isHanabiType } from "./hanabi_type.ts";
+import { HanabiMode } from "./mode_type.ts";
 
 const fireworks: Firework[] = [];
 let bgColor: p5.Color;
@@ -22,14 +23,14 @@ function FireworkMakeMode(p: p5) {
   if (fireworks.length === 0) {
     const launchPos = p.createVector(
       p.random(p.width * 0.4, p.width * 0.6),
-      p.height,
+      p.height
     );
     const firework = new Firework(
       p,
       firework_colors,
       firework_types,
       graphicBuffers,
-      launchPos,
+      launchPos
     );
 
     fireworks.push(firework);
@@ -46,7 +47,7 @@ function FireworkContestMode(p: p5) {
       [_color(), _color(), _color()],
       [_type(), _type(), _type()],
       graphicBuffers,
-      p.createVector(p.random(0.1, 0.9) * p.width, p.height),
+      p.createVector(p.random(0.1, 0.9) * p.width, p.height)
     );
 
     fireworks.push(firework);
@@ -85,10 +86,13 @@ const sketch = (p: p5) => {
     p.colorMode(p.HSB);
 
     if (isReady) {
-      if (mode === "make") {
-        FireworkMakeMode(p);
-      } else if (mode === "contest") {
-        FireworkContestMode(p);
+      switch (mode) {
+        case HanabiMode.Make:
+          FireworkMakeMode(p);
+          break;
+        case HanabiMode.Contest:
+          FireworkContestMode(p);
+          break;
       }
 
       // 花火の更新
@@ -126,22 +130,22 @@ const sketch = (p: p5) => {
 let isReady = false;
 let firework_types: HanabiType[];
 let firework_colors: p5.Color[];
-let mode: string;
+let mode: HanabiMode;
 
-function start(_mode: string) {
+function start(_mode: HanabiMode) {
   isReady = true;
   mode = _mode;
 }
 
 export function startMakeMode(types: HanabiType[], colors: p5.Color[]) {
-  start("make");
+  start(HanabiMode.Make);
 
   firework_types = types;
   firework_colors = colors;
 }
 
 export function startContestMode() {
-  start("contest");
+  start(HanabiMode.Contest);
 }
 
 new p5(sketch);

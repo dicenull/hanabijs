@@ -2,10 +2,17 @@
 // @ts-types="@types/p5"
 import p5 from "https://esm.sh/p5@1.10.0";
 
-import { Firework } from "./firework.ts";
+import {
+  HanabiBuilder,
+  MakeRandomFirework,
+  MakeSingleFirework,
+} from "./hanabi_builder.ts";
+import { HanabiController } from "./hanabi_controller.ts";
 import { HanabiType, isHanabiType } from "./hanabi_type.ts";
+import { HanabiMode } from "./mode_type.ts";
 
-const fireworks: Firework[] = [];
+const hanabiController = new HanabiController();
+let hanabiBuilder: HanabiBuilder | null = null;
 let bgColor: p5.Color;
 
 const graphicBuffers: Record<HanabiType, p5.Graphics | null> = {
@@ -17,41 +24,6 @@ const raisingTrail = 15;
 const kikuTrail = 30;
 const botanTrail = 3;
 const standardFrame = 60;
-
-function FireworkMakeMode(p: p5) {
-  if (fireworks.length === 0) {
-    const launchPos = p.createVector(
-      p.random(p.width * 0.4, p.width * 0.6),
-      p.height,
-    );
-    const firework = new Firework(
-      p,
-      firework_colors,
-      firework_types,
-      graphicBuffers,
-      launchPos,
-    );
-
-    fireworks.push(firework);
-  }
-}
-
-function FireworkContestMode(p: p5) {
-  if (p.random() < 0.3) {
-    const _type = (): HanabiType => p.random(["Botan", "Kiku"]);
-    const _color = () => p.color(p.random(255), 255, 255);
-
-    const firework = new Firework(
-      p,
-      [_color(), _color(), _color()],
-      [_type(), _type(), _type()],
-      graphicBuffers,
-      p.createVector(p.random(0.1, 0.9) * p.width, p.height),
-    );
-
-    fireworks.push(firework);
-  }
-}
 
 const sketch = (p: p5) => {
   p.setup = () => {
@@ -84,12 +56,9 @@ const sketch = (p: p5) => {
     p.background(bgColor); // 背景に少し透明なのを重ねてだんだん消えて行くように
     p.colorMode(p.HSB);
 
-    if (isReady) {
-      if (mode === "make") {
-        FireworkMakeMode(p);
-      } else if (mode === "contest") {
-        FireworkContestMode(p);
-      }
+    if (hanabiController.isReady) {
+      const nextFirework = hanabiBuilder?.build(p, graphicBuffers) ?? null;
+      hanabiController.update(nextFirework);
 
       // 花火の更新
       graphicBuffers["Rasing"]?.background(0, Math.ceil(255 / raisingTrail));
@@ -98,15 +67,7 @@ const sketch = (p: p5) => {
 
       const delta = p.deltaTime;
       const currentFrame = p.frameRate();
-      for (let i = fireworks.length - 1; i >= 0; i--) {
-        // フレームレートを考慮して更新をかける
-        fireworks[i].update(p, delta * currentFrame * 0.001);
-        fireworks[i].show();
-        if (fireworks[i].done) {
-          fireworks[i].dispose();
-          fireworks.splice(i, 1);
-        }
-      }
+      hanabiController.draw(p, delta * currentFrame * 0.001);
 
       // canvasに反映
       p.blendMode(p.SCREEN);
@@ -123,25 +84,14 @@ const sketch = (p: p5) => {
   };
 };
 
-let isReady = false;
-let firework_types: HanabiType[];
-let firework_colors: p5.Color[];
-let mode: string;
-
-function start(_mode: string) {
-  isReady = true;
-  mode = _mode;
-}
-
 export function startMakeMode(types: HanabiType[], colors: p5.Color[]) {
-  start("make");
-
-  firework_types = types;
-  firework_colors = colors;
+  hanabiBuilder = new MakeSingleFirework(colors, types);
+  hanabiController.start(HanabiMode.Make);
 }
 
 export function startContestMode() {
-  start("contest");
+  hanabiBuilder = new MakeRandomFirework();
+  hanabiController.start(HanabiMode.Contest);
 }
 
 new p5(sketch);
